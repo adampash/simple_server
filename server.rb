@@ -41,7 +41,7 @@ class Server
   end
 
   def self.close
-    @socket.shutdown
+    # @socket.shutdown
     @socket.close
   end
 
