@@ -1,0 +1,5 @@
+* Extract receiving a new connection into a parser; return request object
+* Handle GET/POST/etc
+* Extract response logic (e.g., the file reader)
+* Threading???
+
