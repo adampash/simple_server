@@ -2,9 +2,12 @@ require './server.rb'
 require 'open-uri'
 describe "Server" do
   Thread.new {
-    Server.start
-    sleep(1)
-    Server.close
+    begin
+      Server.start
+      # sleep(1)
+    ensure
+      Server.close
+    end
   }
   it "should return something when connected to" do
     response = open('http://localhost:2000/').read
