@@ -6,6 +6,9 @@ class Server
   MESSAGE = "Hello world"
   PATH_RE = /GET\s+((\/\w*)+)\sHTTP/ 
   DIR     = File.expand_path(File.join(File.dirname(__FILE__)))
+  DEFAULT = "#{DIR}/public/index.html"
+  FOUR_OH_FOUR = "#{DIR}/public/404.html"
+ 
 
   def self.start
     @socket = Socket.new(:INET, :STREAM) # TCP socket
@@ -23,14 +26,10 @@ class Server
         line = client.gets
       end
       puts "End of request header"
-      message = ''
       begin
-        File.open("#{DIR}/public#{path}/index.html").each_line do |line|
-          puts line
-          message += line
-        end
+        message = read_file("#{DIR}/public#{path}/index.html")
       rescue 
-        message = MESSAGE
+        message = read_file(FOUR_OH_FOUR)
       end
       client.puts "HTTP/1.1 200 OK\n"
       client.puts "Content-Type: text/html; charset=UTF-8"
@@ -45,5 +44,15 @@ class Server
     @socket.shutdown
     @socket.close
   end
+
+  def self.read_file(file_path)
+    message = ''
+    File.open(file_path).each_line do |line|
+      puts line
+        message += line
+    end
+    message
+  end
+    
 
 end
