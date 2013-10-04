@@ -20,12 +20,12 @@ class Server
 
       line = client.gets
       path = line.match(PATH_RE).nil? ? '' : line.match(PATH_RE)[1]
-      puts "Client requesting #{path}"
+      # puts "Client requesting #{path}"
       while line != "\r\n"
-        puts line
+        # puts line
         line = client.gets
       end
-      puts "End of request header"
+      # puts "End of request header"
       begin
         message = read_file("#{DIR}/public#{path}/index.html")
       rescue 
@@ -48,7 +48,7 @@ class Server
   def self.read_file(file_path)
     message = ''
     File.open(file_path).each_line do |line|
-      puts line
+      # puts line
         message += line
     end
     message
