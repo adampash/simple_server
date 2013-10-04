@@ -1,2 +1,3 @@
 tmp/*
 .server.rb.swp
+spec/.*
