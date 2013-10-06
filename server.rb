@@ -1,6 +1,6 @@
 require 'socket'
 
-class Server
+module Server
   PORT = 2000
   HOST = '127.0.0.1'
   MESSAGE = "Hello world"
