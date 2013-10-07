@@ -3,15 +3,14 @@ class Request
   attr_reader :path
   # initialize request object takes socket connection from client
   def initialize(connection)
-    puts "Connection object: #{connection}"
+    # puts "Connection object: #{connection}"
     @connection = connection
     line = @connection.gets
-    puts line
+    # puts line
     @path = line.match(PATH_RE).nil? ? '' : line.match(PATH_RE)[1]
-    puts @path
-    puts "Client requesting #{@path}"
+    # puts "Client requesting #{@path}"
     while line != "\r\n"
-      puts line
+      # puts line
       line = @connection.gets
     end
   end

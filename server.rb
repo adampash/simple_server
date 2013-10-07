@@ -3,30 +3,28 @@ require './request.rb'
 require './file_server.rb'
 
 module Server
-  PORT = 2000
   HOST = '127.0.0.1'
-  MESSAGE = "Hello world"
+  PORT = 2000
   DIR     = File.expand_path(File.join(File.dirname(__FILE__)))
-  DEFAULT = "#{DIR}/public/index.html"
- 
 
   def self.start
+    # puts "Server running at #{HOST}:#{PORT}"
     @socket = Socket.new(:INET, :STREAM) # TCP socket
     addr = Socket.pack_sockaddr_in(PORT, HOST)
     @socket.bind(addr)
     @socket.listen(2)
     loop do
-      client, addr_info = @socket.accept
-      request = Request.new(client)
+      connection, addr_info = @socket.accept
+      request = Request.new(connection)
       # puts "End of request header"
       # puts request.path
-      message = FileServer.serve(DIR, request.path)
-      client.puts "HTTP/1.1 200 OK\n"
-      client.puts "Content-Type: text/html; charset=UTF-8"
-      client.puts "Content-Length: #{message.length}"
-      client.puts "\n"
-      client.puts message
-      client.close
+      message = FileServer.read(DIR, request.path)
+      connection.puts "HTTP/1.1 200 OK\n"
+      connection.puts "Content-Type: text/html; charset=UTF-8"
+      connection.puts "Content-Length: #{message.length}"
+      connection.puts "\n"
+      connection.puts message
+      connection.close
     end
   end
 
@@ -34,7 +32,5 @@ module Server
     # @socket.shutdown
     @socket.close
   end
-
-    
 
 end

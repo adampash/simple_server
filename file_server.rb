@@ -1,8 +1,7 @@
 module FileServer
 
 
-  def self.serve(root, path)
-    puts "Inside file server"
+  def self.read(root, path)
     begin
       message = read_file("#{root}/public#{path}/index.html")
       status = 200
@@ -17,7 +16,6 @@ module FileServer
   def self.read_file(file_path)
     message = ''
     File.open(file_path).each_line do |line|
-      # puts line
         message += line
     end
     message
